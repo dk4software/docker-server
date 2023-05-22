@@ -1,0 +1,20 @@
+#! /bin/bash
+
+set -o errexit
+
+# if [ -z "$1" ]; then
+#     echo "Usage: bin/setssl <domain name>"
+#     exit
+# fi
+
+#comment the local certificate
+sed -i "s/  ssl_certificate/ #ssl_certificate/g" nginx/conf.d/default.conf
+
+#uncomment the generated certificate
+sed -i "s/#uncomment#//g" nginx/conf.d/default.conf
+
+#replace domain name#not needed for reverseproxy
+#sed -i "s/local-magento-test.net/$1/g" nginx/conf.d/default.conf
+
+#restart nginx
+bin/restart

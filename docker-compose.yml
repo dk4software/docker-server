@@ -1,0 +1,42 @@
+version: '3'
+services:
+  proxy:
+    image: nginx:latest
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/errors/backend-not-found.html:/var/www/html/backend-not-found.html
+      - ./nginx/includes:/etc/nginx/includes
+      - ./nginx/ssl:/etc/ssl/certs/nginx
+      - ./letsencrypt/etc:/var/www/letsencrypt:cached
+      - ./http-pwd/etc:/etc/nginx/pwd/.htpasswd:cached
+      - ./http-pwd/bin/setnginxpwd:/var/www/html/bin/setnginxpwd:cached
+    networks:
+      - default
+    ports:
+      - 80:80
+      - 443:443
+  app1:
+    image: vendor/app1:latest
+    ports:
+      - "8080"
+  app2:
+    volumes:
+      - ./private:/private
+    image: vendor/app2:latest
+    ports:
+      - "3000"
+  app3:
+    volumes:
+      - ./private:/private
+    image: vendor/app3:latest
+    ports:
+    - "3000"
+  app4:
+    image: vendor/app4:latest
+    volumes:
+      - ./nginx/app4/conf.d:/etc/nginx/conf.d
+    ports:
+    - "80"
+
+networks:
+  default:

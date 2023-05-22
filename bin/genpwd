@@ -1,0 +1,10 @@
+#!/bin/bash
+set -o errexit
+
+if [ -z "$1" ]; then
+    echo "Usage: bin/setnginxpwd <user name>"
+    exit
+fi
+
+
+docker-compose exec proxy /var/www/html/bin/setnginxpwd "$1"

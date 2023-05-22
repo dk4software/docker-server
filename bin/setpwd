@@ -1,0 +1,7 @@
+#! /bin/bash
+
+#uncomment the htpasswd line for enforcing password
+sed -i "s/#htpwd#//g" nginx/conf.d/default.conf
+
+#restart nginx for the config change above to apply
+bin/restart
